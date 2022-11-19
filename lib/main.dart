@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 const Color activeCard = Color(0xff1d1e33);
 const Color inactiveCard = Color(0xff111328);
 
+enum Gender { male, female }
+
 void main() {
   runApp(const BMICalculator());
 }
@@ -59,23 +61,30 @@ class BMICalculator extends StatelessWidget {
 }
 
 class InputPage extends StatefulWidget {
-  const InputPage({Key? key}) : super(key: key);
-
   @override
   State<InputPage> createState() => _InputPageState();
 }
 
 class _InputPageState extends State<InputPage> {
+  Gender? selectedGender;
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Expanded(
           child: Row(
-            children: const [
+            children: [
               Expanded(
                 child: InputCard(
-                  child: IconContainer(
+                  onPressed: () {
+                    setState(() {
+                      selectedGender = Gender.male;
+                    });
+                  },
+                  color:
+                      selectedGender == Gender.male ? activeCard : inactiveCard,
+                  child: const IconContainer(
                     icon: Icons.male_rounded,
                     label: "Male",
                   ),
@@ -83,7 +92,15 @@ class _InputPageState extends State<InputPage> {
               ),
               Expanded(
                 child: InputCard(
-                  child: IconContainer(
+                  onPressed: () {
+                    setState(() {
+                      selectedGender = Gender.female;
+                    });
+                  },
+                  color: selectedGender == Gender.female
+                      ? activeCard
+                      : inactiveCard,
+                  child: const IconContainer(
                     icon: Icons.female_rounded,
                     label: "Female",
                   ),
@@ -94,11 +111,7 @@ class _InputPageState extends State<InputPage> {
         ),
         Expanded(
           child: InputCard(
-            child: Container(
-              color: Colors.white,
-              height: 20,
-              width: double.infinity,
-            ),
+            child: Container(),
           ),
         ),
         Expanded(
@@ -120,25 +133,30 @@ class _InputPageState extends State<InputPage> {
   }
 }
 
-class InputCard extends StatefulWidget {
+class InputCard extends StatelessWidget {
   final Widget child;
+  final Color? color;
+  final void Function()? onPressed;
 
-  const InputCard({Key? key, required this.child}) : super(key: key);
+  const InputCard({
+    Key? key,
+    required this.child,
+    this.color = activeCard,
+    this.onPressed,
+  }) : super(key: key);
 
-  @override
-  State<InputCard> createState() => _InputCardState();
-}
-
-class _InputCardState extends State<InputCard> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: const Color(0xff1d1e33),
-        borderRadius: BorderRadius.circular(10),
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        margin: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: child,
       ),
-      child: widget.child,
     );
   }
 }
@@ -147,8 +165,11 @@ class IconContainer extends StatelessWidget {
   final IconData icon;
   final String label;
 
-  const IconContainer({Key? key, required this.icon, required this.label})
-      : super(key: key);
+  const IconContainer({
+    Key? key,
+    required this.icon,
+    required this.label,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
