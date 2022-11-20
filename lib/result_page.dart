@@ -1,8 +1,11 @@
+import 'package:bmi_calculator/bmi_utils.dart';
 import 'package:bmi_calculator/main.dart';
 import 'package:flutter/material.dart';
 
 class ResultPage extends StatelessWidget {
-  const ResultPage({Key? key}) : super(key: key);
+  const ResultPage({Key? key, required this.result}) : super(key: key);
+
+  final BMIResult result;
 
   @override
   Widget build(BuildContext context) {
