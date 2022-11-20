@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 const Color activeCard = Color(0xff1d1e33);
@@ -68,6 +69,8 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
   Gender? selectedGender;
   int height = 120;
+  int weight = 55;
+  int age = 18;
 
   @override
   Widget build(BuildContext context) {
@@ -161,13 +164,27 @@ class _InputPageState extends State<InputPage> {
           child: Row(
             children: [
               Expanded(
-                  child: InputCard(
-                child: Container(),
-              )),
+                child: InputCard(
+                  child: NumInputCard(
+                    label: "WEIGHT",
+                    defaultValue: 55,
+                    onChange: (int newValue) {
+                      weight = newValue;
+                    },
+                  ),
+                ),
+              ),
               Expanded(
-                  child: InputCard(
-                child: Container(),
-              ))
+                child: InputCard(
+                  child: NumInputCard(
+                    label: "AGE",
+                    defaultValue: 18,
+                    onChange: (int newValue) {
+                      age = newValue;
+                    },
+                  ),
+                ),
+              )
             ],
           ),
         ),
@@ -231,6 +248,96 @@ class IconContainer extends StatelessWidget {
           style: const TextStyle(fontSize: 20, color: Color(0xff8d8e98)),
         ),
       ],
+    );
+  }
+}
+
+class NumInputCard extends StatefulWidget {
+  final String label;
+  final int defaultValue;
+  final ValueChanged<int>? onChange;
+
+  const NumInputCard(
+      {Key? key,
+      required this.label,
+      required this.defaultValue,
+      required this.onChange})
+      : super(key: key);
+
+  @override
+  State<NumInputCard> createState() => _NumInputCardState();
+}
+
+class _NumInputCardState extends State<NumInputCard> {
+  late int value;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    value = widget.defaultValue;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          widget.label,
+          style: const TextStyle(fontSize: 22, color: Color(0xff8d8e98)),
+        ),
+        Text(
+          value.toString(),
+          style: const TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(
+          height: 25,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            InputIconButton(
+              CupertinoIcons.minus,
+              onPressed: () {
+                setState(() {
+                  value--;
+                });
+              },
+            ),
+            InputIconButton(
+              Icons.add,
+              onPressed: () {
+                setState(() {
+                  value++;
+                });
+              },
+            )
+          ],
+        )
+      ],
+    );
+  }
+}
+
+class InputIconButton extends StatelessWidget {
+  final IconData icon;
+  final void Function() onPressed;
+
+  const InputIconButton(this.icon, {Key? key, required this.onPressed})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: CircleAvatar(
+        radius: 28,
+        child: Icon(
+          icon,
+          size: 38,
+        ),
+      ),
     );
   }
 }
