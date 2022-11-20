@@ -1,3 +1,4 @@
+import 'package:bmi_calculator/result_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -55,7 +56,7 @@ class BMICalculator extends StatelessWidget {
           title: const Text('BMI Calculator'),
           centerTitle: true,
         ),
-        body: InputPage(),
+        body: ResultPage(),
       ),
     );
   }
@@ -195,12 +196,12 @@ class _InputPageState extends State<InputPage> {
             width: double.infinity,
             child: const Center(
               child: Text(
-                "Calculate",
+                "CALCULATE",
                 style: TextStyle(fontSize: 25),
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
