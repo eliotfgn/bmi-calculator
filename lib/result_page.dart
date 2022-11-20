@@ -10,8 +10,11 @@ class ResultPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("BMI Calculator"),
+      ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 35),
+        padding: const EdgeInsets.only(top: 45),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -23,7 +26,7 @@ class ResultPage extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
             ),
-            ResultContent(),
+            ResultContent(result: result),
             GestureDetector(
               onTap: () {
                 Navigator.pop(context);
@@ -48,7 +51,9 @@ class ResultPage extends StatelessWidget {
 }
 
 class ResultContent extends StatelessWidget {
-  const ResultContent({Key? key}) : super(key: key);
+  const ResultContent({Key? key, required this.result}) : super(key: key);
+
+  final BMIResult result;
 
   @override
   Widget build(BuildContext context) {
@@ -56,28 +61,28 @@ class ResultContent extends StatelessWidget {
       child: Container(
         width: double.infinity,
         margin: const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
-        padding: const EdgeInsets.symmetric(horizontal: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
           color: inactiveCard,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: const [
+          children: [
             Text(
-              "OVERWEIGHT",
-              style: TextStyle(
+              result.result.toUpperCase(),
+              style: const TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
                   color: Color(0xff24d876)),
             ),
             Text(
-              "26.5",
-              style: TextStyle(fontSize: 80, fontWeight: FontWeight.bold),
+              result.bmi.toStringAsFixed(2),
+              style: const TextStyle(fontSize: 80, fontWeight: FontWeight.bold),
             ),
             Text(
-              "You have a higher than normal body weight. Try to exercise a little bit.",
-              style: TextStyle(fontSize: 20),
+              result.interpretation,
+              style: const TextStyle(fontSize: 20),
               textAlign: TextAlign.center,
             )
           ],

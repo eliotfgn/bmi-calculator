@@ -1,3 +1,4 @@
+import 'package:bmi_calculator/bmi_utils.dart';
 import 'package:bmi_calculator/result_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ const Color inactiveCard = Color(0xff111328);
 enum Gender { male, female }
 
 void main() {
-  runApp(const BMICalculator());
+  runApp(const BMICalculatorPage());
 }
 
 MaterialColor createMaterialColor(Color color) {
@@ -31,8 +32,8 @@ MaterialColor createMaterialColor(Color color) {
   return MaterialColor(color.value, swatch);
 }
 
-class BMICalculator extends StatelessWidget {
-  const BMICalculator({Key? key}) : super(key: key);
+class BMICalculatorPage extends StatelessWidget {
+  const BMICalculatorPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -191,8 +192,16 @@ class _InputPageState extends State<InputPage> {
         ),
         GestureDetector(
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const ResultPage()));
+            String sex = selectedGender == Gender.male ? "MALE" : "FEMALE";
+            BMIData data =
+                BMIData(sex: sex, age: age, weight: weight, height: height);
+            BMICalculator calculator = BMICalculator(bmiData: data);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ResultPage(
+                          result: calculator.calculateBMI(),
+                        )));
           },
           child: Container(
             color: Colors.red,
