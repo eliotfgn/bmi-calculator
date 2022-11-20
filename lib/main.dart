@@ -56,7 +56,7 @@ class BMICalculator extends StatelessWidget {
           title: const Text('BMI Calculator'),
           centerTitle: true,
         ),
-        body: ResultPage(),
+        body: InputPage(),
       ),
     );
   }
@@ -190,6 +190,10 @@ class _InputPageState extends State<InputPage> {
           ),
         ),
         GestureDetector(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const ResultPage()));
+          },
           child: Container(
             color: Colors.red,
             height: 70,

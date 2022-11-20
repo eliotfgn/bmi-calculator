@@ -22,6 +22,9 @@ class ResultPage extends StatelessWidget {
             ),
             ResultContent(),
             GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
               child: Container(
                 color: Colors.red,
                 height: 70,
